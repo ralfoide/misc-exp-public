@@ -4,6 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -69,7 +71,11 @@ public class MainActivityActivity extends Activity {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static class InnerClassUsingTransitionManager {
+
+        Transition t = new AutoTransition();
+
         @TargetApi(Build.VERSION_CODES.M)
         public void doSomething(ViewGroup group) {
             TransitionManager.endTransitions(group);
