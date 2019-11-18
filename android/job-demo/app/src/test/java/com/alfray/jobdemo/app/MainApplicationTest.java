@@ -20,9 +20,16 @@ import static com.google.common.truth.Truth.assertThat;
  * http://robolectric.org/migrating/#migrating-to-40
  * - build.gradle: add testOptions.unitTests.includeAndroidResources = true
  * - gradle.properties: add android.enableUnitTestBinaryResources=true
+ * <p/>
+ * There's currently an issue when testing against API 28:
+ *   NoClassDefFoundError: [Landroid/content/res/ApkAssets;
+ * This happens only on _some_ machines. It's not consistent. Why? JVM issue maybe?
+ *
+ * To compensate, API 26 is fixed in @Config via global properties defined here:
+ *   src/test/resources/robolectric.properties
  */
 @RunWith(AndroidJUnit4.class)
-@Config(sdk = {26, 28})
+@Config(sdk = {26 /*, 28 --> "NoClassDefFoundError: [Landroid/content/res/ApkAssets;" */})
 public class MainApplicationTest {
 
     private Context mAppContext;
