@@ -1,0 +1,38 @@
+apply plugin: "com.android.application"
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.alfray.jobdemo"
+        minSdkVersion 26
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "androidx.appcompat:appcompat:1.1.0"
+
+    implementation "com.google.dagger:dagger:2.22.1"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.22.1"
+
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+
+    testImplementation "org.mockito:mockito-core:3.0.0"
+    testImplementation "org.robolectric:robolectric:4.3"
+    testImplementation "com.google.truth:truth:0.44"
+    testImplementation "junit:junit:4.12"
+    testImplementation "com.google.guava:guava:24.1"
+
+}
