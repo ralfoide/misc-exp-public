@@ -8,11 +8,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.util.Log;
 
+import javax.inject.Inject;
+
 public class DemoJobService extends JobService {
     private static final String TAG = DemoJobService.class.getSimpleName();
 
+    @Inject EventLog mEventLog;
+
     public DemoJobService() {
         Log.d(TAG, "New DemoJobService");
+        MainApplication.getMainAppComponent(getApplicationContext()).inject(this);
+        mEventLog.add("service created");
     }
 
     public static void scheduleJob(Context context) {
@@ -33,6 +39,7 @@ public class DemoJobService extends JobService {
         // Return true if it needs to continue, which must be done in a separate thread or async
         // task, then call jobFinished(params, wantsReschedule). The system holds a wakelock.
         Log.d(TAG, "onStartJob: " + params);
+        mEventLog.add("service start job");
         return false;
     }
 

@@ -47,7 +47,7 @@ public class MainApplicationTest {
 
     @Test
     public void getMainAppComponent() {
-        MainAppComponent appComponent = MainApplication.getMainAppComponent(mAppContext);
+        IMainAppComponent appComponent = MainApplication.getMainAppComponent(mAppContext);
         assertThat(appComponent).isNotNull();
     }
 }

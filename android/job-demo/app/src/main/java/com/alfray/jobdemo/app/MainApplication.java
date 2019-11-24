@@ -7,9 +7,9 @@ import android.util.Log;
 public class MainApplication extends Application {
     private static final String TAG = MainApplication.class.getSimpleName();
 
-    private MainAppComponent mMainAppComponent = DaggerMainAppComponent.create();
+    private IMainAppComponent mMainAppComponent = DaggerIMainAppComponent.create();
 
-    public static MainAppComponent getMainAppComponent(Context context) {
+    public static IMainAppComponent getMainAppComponent(Context context) {
         return ((MainApplication) (context.getApplicationContext())).mMainAppComponent;
     }
 
