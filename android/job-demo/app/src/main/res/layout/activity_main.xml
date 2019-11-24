@@ -3,20 +3,33 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.MainActivity">
+        tools:context=".activities.MainActivity"
+        tools:ignore="HardcodedText"
+        >
 
     <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!" />
+            android:text="Job Scheduler Demo w/ Dagger &amp; Robolectric"
+            />
 
     <Button
-            android:id="@+id/button"
+            android:id="@+id/generateBtn"
+            android:onClick="onGenerateBtnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text"
-            android:onClick="onButtonClick"
-            android:text="Button" />
+            android:layout_marginTop="8dp"
+            android:text="Generate Event"
+            />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/generateBtn"
+            android:layout_marginTop="8dp"
+            />
 
 </RelativeLayout>

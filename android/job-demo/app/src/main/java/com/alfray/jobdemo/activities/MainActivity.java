@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import com.alfray.jobdemo.R;
 import com.alfray.jobdemo.app.DemoJobService;
 import com.alfray.jobdemo.app.EventLog;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private IMainActivityComponent mComponent;
 
     @Inject EventLog mEventLog;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mRecyclerView = findViewById(R.id.eventsView);
+        mRecyclerView.setAdapter(mEventLog.getAdapter());
     }
 
     @Override
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void onButtonClick(View view) {
+    public void onGenerateBtnClick(View view) {
         DemoJobService.scheduleJob(this);
     }
 }
