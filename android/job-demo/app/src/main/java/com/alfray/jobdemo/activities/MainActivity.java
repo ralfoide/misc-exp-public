@@ -7,16 +7,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.alfray.jobdemo.R;
 import com.alfray.jobdemo.app.DemoJobService;
+import com.alfray.jobdemo.app.EventLog;
 import com.alfray.jobdemo.app.MainApplication;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private IMainActivityComponent mComponent;
+
+    @Inject EventLog mEventLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
 
-        MainApplication.getMainAppComponent(this).inject(this);
+        mComponent = MainApplication.getMainAppComponent(this).newMainActivityComponent().create();
+        mComponent.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
