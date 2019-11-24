@@ -31,13 +31,13 @@ import static com.google.common.truth.Truth.assertThat;
 @RunWith(AndroidJUnit4.class)
 @Config(sdk = {26 /*, 28 --> "NoClassDefFoundError: [Landroid/content/res/ApkAssets;" */})
 public class MainApplicationTest {
-
     private Context mAppContext;
 
     @Before
     public void setUp() {
         mAppContext = ApplicationProvider.getApplicationContext();
         assertThat(mAppContext).isInstanceOf(MainApplication.class);
+        assertThat(mAppContext).isNotInstanceOf(TestApplication.class);
     }
 
     @Test
@@ -49,5 +49,6 @@ public class MainApplicationTest {
     public void getMainAppComponent() {
         IMainAppComponent appComponent = MainApplication.getMainAppComponent(mAppContext);
         assertThat(appComponent).isNotNull();
+        assertThat(appComponent).isNotInstanceOf(ITestAppComponent.class);
     }
 }

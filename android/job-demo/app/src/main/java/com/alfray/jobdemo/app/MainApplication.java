@@ -7,10 +7,19 @@ import android.util.Log;
 public class MainApplication extends Application {
     private static final String TAG = MainApplication.class.getSimpleName();
 
-    private IMainAppComponent mMainAppComponent = DaggerIMainAppComponent.factory().create();
+    private IMainAppComponent mAppComponent;
 
     public static IMainAppComponent getMainAppComponent(Context context) {
-        return ((MainApplication) (context.getApplicationContext())).mMainAppComponent;
+        return ((MainApplication) (context.getApplicationContext())).mAppComponent;
+    }
+
+    public MainApplication() {
+        setComponent(DaggerIMainAppComponent.factory().create());
+    }
+
+    /** Sets the IMainAppComponent, done by this constructor or the one from TestApplication. */
+    protected void setComponent(IMainAppComponent appComponent) {
+        mAppComponent = appComponent;
     }
 
     @Override
