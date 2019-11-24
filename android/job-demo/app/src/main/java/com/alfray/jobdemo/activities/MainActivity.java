@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alfray.jobdemo.R;
 import com.alfray.jobdemo.app.DemoJobService;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
+        Log.d(TAG, "@@ onCreate");
 
         mComponent = MainApplication.getMainAppComponent(this).newMainActivityComponent().create();
         mComponent.inject(this);
@@ -33,35 +34,37 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.eventsView);
         mRecyclerView.setAdapter(mEventLog.getAdapter());
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     protected void onResume() {
-        Log.d(TAG, "onResume");
+        Log.d(TAG, "@@ onResume");
         super.onResume();
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        Log.d(TAG, "onSaveInstanceState");
+        Log.d(TAG, "@@ onSaveInstanceState");
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "onPause");
+        Log.d(TAG, "@@ onPause");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        Log.d(TAG, "onStop");
+        Log.d(TAG, "@@ onStop");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "onDestroy");
+        Log.d(TAG, "@@ onDestroy");
         super.onDestroy();
     }
 

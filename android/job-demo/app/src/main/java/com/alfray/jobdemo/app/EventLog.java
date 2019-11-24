@@ -1,13 +1,9 @@
 package com.alfray.jobdemo.app;
 
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
+import com.alfray.jobdemo.activities.EventLogViewHolder;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -50,20 +46,10 @@ public class EventLog {
         }
     }
 
-    public static class EventLogViewHolder extends RecyclerView.ViewHolder {
-        public static EventLogViewHolder create(@NonNull ViewGroup parent) {
-            return null;
-        }
-
-        public EventLogViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-    }
-
-    public class EventLogAdapter extends ListAdapter<Event, EventLogViewHolder> {
-        public EventLogAdapter() {
-            super(DIFF_CALLBACK);
+    public class EventLogAdapter extends RecyclerView.Adapter<EventLogViewHolder> {
+        @Override
+        public int getItemCount() {
+            return mEvents.size();
         }
 
         @NonNull
@@ -76,20 +62,5 @@ public class EventLog {
         public void onBindViewHolder(@NonNull EventLogViewHolder holder, int position) {
             holder.bind(mEvents.get(position));
         }
-    }
-
-    public static final DiffUtil.ItemCallback<Event> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Event>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull Event oldItem, @NonNull Event newItem) {
-                    //noinspection StringEquality
-                    return oldItem.getMsg() == newItem.getMsg();
-                }
-
-                @Override
-                public boolean areContentsTheSame(@NonNull Event oldItem, @NonNull Event newItem) {
-                    return oldItem.getMsg().equalsIgnoreCase(newItem.getMsg());
-                }
-            };
     }
 }

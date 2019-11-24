@@ -15,13 +15,13 @@ public class MainApplication extends Application {
 
     @Override
     public void onCreate() {
-        Log.d(TAG, "onCreate");
+        Log.d(TAG, "@@ onCreate");
         super.onCreate();
     }
 
     @Override
     public void onTerminate() {
-        Log.d(TAG, "onTerminate");
+        Log.d(TAG, "@@ onTerminate");
         super.onTerminate();
     }
 }
