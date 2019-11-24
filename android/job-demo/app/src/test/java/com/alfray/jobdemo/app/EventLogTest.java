@@ -23,7 +23,9 @@ public class EventLogTest {
 
     @Before
     public void setUp() {
-        ITestAppComponent component = (ITestAppComponent) MainApplication.getMainAppComponent(ApplicationProvider.getApplicationContext());
+        ITestAppComponent component =
+                (ITestAppComponent) MainApplication.getMainAppComponent(
+                        ApplicationProvider.getApplicationContext());
         component.inject(this);
         assertThat(mEventLog).isNotNull();
     }
