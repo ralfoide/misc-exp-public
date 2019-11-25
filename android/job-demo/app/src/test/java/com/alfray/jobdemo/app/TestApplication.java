@@ -9,4 +9,9 @@ public class TestApplication extends MainApplication {
     public TestApplication() {
         setComponent(DaggerITestAppComponent.factory().createTestApp());
     }
+
+    @Override
+    protected void skipThisUnderTest() {
+        // no-op
+    }
 }

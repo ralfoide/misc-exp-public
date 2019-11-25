@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 
 public class MainApplication extends Application {
     private static final String TAG = MainApplication.class.getSimpleName();
@@ -30,7 +31,11 @@ public class MainApplication extends Application {
     public void onCreate() {
         Log.d(TAG, "@@ onCreate");
         super.onCreate();
-        mEventLog.add("App: Created");
+        skipThisUnderTest();
+    }
+
+    protected void skipThisUnderTest() {
+        mEventLog.add(LocalDateTime.now(), "App: Created");
     }
 
     @Override

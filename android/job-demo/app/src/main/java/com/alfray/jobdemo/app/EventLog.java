@@ -7,6 +7,7 @@ import com.alfray.jobdemo.activities.EventLogViewHolder;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,11 @@ public class EventLog {
     public EventLog() {}
 
     public void add(String msg) {
-        mEvents.add(new Event(msg));
+        add(LocalDateTime.now(), msg);
+    }
+
+    public void add(LocalDateTime dateTime, String msg) {
+        mEvents.add(new Event(dateTime, msg));
         if (mAdapter != null) {
             mAdapter.notifyItemInserted(mEvents.size()-1);
         }
@@ -35,14 +40,20 @@ public class EventLog {
     }
 
     public static class Event {
+        private final LocalDateTime mDateTime;
         private final String mMsg;
 
-        public Event(String msg) {
+        public Event(LocalDateTime dateTime, String msg) {
+            mDateTime = dateTime;
             mMsg = msg;
         }
 
         public String getMsg() {
             return mMsg;
+        }
+
+        public LocalDateTime getDateTime() {
+            return mDateTime;
         }
     }
 

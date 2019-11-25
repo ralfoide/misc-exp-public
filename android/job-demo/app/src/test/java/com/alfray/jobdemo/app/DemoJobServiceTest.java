@@ -32,7 +32,7 @@ public class DemoJobServiceTest {
         assertThat(mJobScheduler.getAllPendingJobs()).hasSize(1);
         JobInfo jobInfo = mJobScheduler.getAllPendingJobs().get(0);
         assertThat(jobInfo.getService().getShortClassName()).isEqualTo(".app.DemoJobService");
-        assertThat(jobInfo.getMinLatencyMillis()).isEqualTo(500);
+        assertThat(jobInfo.getMinLatencyMillis()).isEqualTo(0);
         assertThat(jobInfo.getMaxExecutionDelayMillis()).isEqualTo(1000);
     }
 }

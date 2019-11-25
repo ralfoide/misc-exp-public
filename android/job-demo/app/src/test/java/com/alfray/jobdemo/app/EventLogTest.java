@@ -1,6 +1,5 @@
 package com.alfray.jobdemo.app;
 
-import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -10,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
 import javax.inject.Inject;
+
+import java.time.LocalDateTime;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;

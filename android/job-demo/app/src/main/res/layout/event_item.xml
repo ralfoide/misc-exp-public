@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        >
+<!--        android:paddingStart="?android:attr/listPreferredItemPaddingStart"-->
+<!--        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"-->
+<!--        android:minHeight="?android:attr/listPreferredItemHeightSmall"-->
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"
+        />
+    <TextView
+            android:id="@+id/msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            tools:text="Item Text"
+            />
+    <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/msg"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:alpha="0.8"
+            tools:text="1234/56/78 12:34:58"
+            />
+
+
+
+</RelativeLayout>

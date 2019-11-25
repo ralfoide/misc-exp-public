@@ -1,13 +1,12 @@
 package com.alfray.jobdemo.app;
 
-import android.app.job.JobInfo;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
 
 /**
  * For demo purposes, the boot action can be triggered from adb:
