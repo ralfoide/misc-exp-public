@@ -10,10 +10,9 @@ import org.robolectric.annotation.Config;
 
 import javax.inject.Inject;
 
-import java.time.LocalDateTime;
-
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -39,10 +38,9 @@ public class EventLogTest {
     @Test
     public void add() {
         RecyclerView.Adapter adapter = mEventLog.getAdapter();
-        assertThat(adapter.getItemCount()).isEqualTo(0);
-
         RecyclerView.AdapterDataObserver observer = mock(RecyclerView.AdapterDataObserver.class);
         adapter.registerAdapterDataObserver(observer);
+        assertThat(adapter.getItemCount()).isEqualTo(0);
 
         mEventLog.add("Msg 1");
         assertThat(adapter.getItemCount()).isEqualTo(1);
@@ -51,6 +49,24 @@ public class EventLogTest {
         mEventLog.add("Msg 2");
         assertThat(adapter.getItemCount()).isEqualTo(2);
         verify(observer).onItemRangeInserted(1, 1);
+
+        verifyNoMoreInteractions(observer);
+    }
+
+    @Test
+    public void clear() {
+        RecyclerView.Adapter adapter = mEventLog.getAdapter();
+        RecyclerView.AdapterDataObserver observer = mock(RecyclerView.AdapterDataObserver.class);
+        adapter.registerAdapterDataObserver(observer);
+        assertThat(adapter.getItemCount()).isEqualTo(0);
+        mEventLog.add("Msg 1");
+        mEventLog.add("Msg 2");
+        assertThat(adapter.getItemCount()).isEqualTo(2);
+        reset(observer);
+
+        mEventLog.clear();
+        assertThat(adapter.getItemCount()).isEqualTo(0);
+        verify(observer).onChanged();
 
         verifyNoMoreInteractions(observer);
     }

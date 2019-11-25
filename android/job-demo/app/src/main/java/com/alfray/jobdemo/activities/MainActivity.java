@@ -71,4 +71,8 @@ public class MainActivity extends AppCompatActivity {
     public void onGenerateBtnClick(View view) {
         DemoJobService.scheduleJob(this);
     }
+
+    public void onClearBtnClick(View view) {
+        mEventLog.clear();
+    }
 }

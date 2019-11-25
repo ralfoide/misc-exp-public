@@ -32,6 +32,13 @@ public class EventLog {
         }
     }
 
+    public void clear() {
+        mEvents.clear();
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
     public RecyclerView.Adapter getAdapter() {
         if (mAdapter == null) {
             mAdapter = new EventLogAdapter();

@@ -24,6 +24,16 @@
             android:text="Generate Event"
             />
 
+    <Button
+            android:id="@+id/clearBtn"
+            android:onClick="onClearBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/generateBtn"
+            android:layout_alignParentEnd="true"
+            android:text="Clear"
+            />
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/eventsView"
             android:layout_width="match_parent"
