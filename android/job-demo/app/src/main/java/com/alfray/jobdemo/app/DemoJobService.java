@@ -14,6 +14,7 @@ public class DemoJobService extends JobService {
     private static final String TAG = DemoJobService.class.getSimpleName();
 
     @Inject EventLog mEventLog;
+    private static long mNextJobId;
 
     public DemoJobService() {
         Log.d(TAG, "@@ New DemoJobService, app: " + getApplication());
@@ -24,15 +25,16 @@ public class DemoJobService extends JobService {
         Log.d(TAG, "@@ onCreate, app: " + getApplication());
         super.onCreate();
         MainApplication.getMainAppComponent(this).inject(this);
-        mEventLog.add("service created");
+        mEventLog.add("Service: Created");
     }
 
     public static void scheduleJob(Context context) {
         Log.d(TAG, "@@ scheduleJob");
         ComponentName serviceName = new ComponentName(context, DemoJobService.class);
-        int jobId = 42;
+        mNextJobId++;
+        int jobId = (int) (mNextJobId & Long.MAX_VALUE);
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceName);
-        builder.setMinimumLatency(500 /* millis */);
+        builder.setMinimumLatency(0 /* millis */);
         builder.setOverrideDeadline(1000 /* millis */);
 
         JobScheduler scheduler = context.getSystemService(JobScheduler.class);
@@ -45,7 +47,7 @@ public class DemoJobService extends JobService {
         // Return true if it needs to continue, which must be done in a separate thread or async
         // task, then call jobFinished(params, wantsReschedule). The system holds a wakelock.
         Log.d(TAG, "@@ onStartJob: " + params);
-        mEventLog.add("service start job");
+        mEventLog.add("Service: Start job #" + params.getJobId());
         return false;
     }
 

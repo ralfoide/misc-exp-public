@@ -9,10 +9,12 @@ import javax.inject.Singleton;
 @Component
 public interface IMainAppComponent {
 
+    void inject(MainApplication mainApplication);
     void inject(DemoReceiver demoReceiver);
     void inject(DemoJobService demoJobService);
 
     IMainActivityComponent.Factory newMainActivityComponent();
+
 
     @Component.Factory
     interface Factory {
