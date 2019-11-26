@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRecyclerView = findViewById(R.id.eventsView);
-        mRecyclerView.setAdapter(mEventLog.getAdapter());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -42,18 +41,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(TAG, "@@ onResume");
         super.onResume();
+        mRecyclerView.setAdapter(mEventLog.getAdapter());
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "@@ onPause");
+        mRecyclerView.setAdapter(null);
+        super.onPause();
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         Log.d(TAG, "@@ onSaveInstanceState");
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d(TAG, "@@ onPause");
-        super.onPause();
     }
 
     @Override
