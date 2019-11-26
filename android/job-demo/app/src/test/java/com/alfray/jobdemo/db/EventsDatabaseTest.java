@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.alfray.jobdemo.app.ITestAppComponent;
 import com.alfray.jobdemo.app.MainApplication;
 import com.alfray.jobdemo.app.TestApplication;
+import dagger.Lazy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

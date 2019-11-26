@@ -35,6 +35,6 @@ public interface ITestAppComponent extends IMainAppComponent {
 
     @Component.Factory
     interface Factory {
-        ITestAppComponent createTestApp(@BindsInstance Context context);
+        ITestAppComponent createTestApp(@BindsInstance @AppContext Context context);
     }
 }

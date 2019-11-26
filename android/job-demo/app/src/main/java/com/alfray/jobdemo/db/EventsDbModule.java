@@ -2,6 +2,8 @@ package com.alfray.jobdemo.db;
 
 import android.content.Context;
 import androidx.room.Room;
+import com.alfray.jobdemo.app.AppContext;
+import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
 
@@ -11,7 +13,7 @@ import javax.inject.Singleton;
 public class EventsDbModule {
     @Singleton
     @Provides
-    EventsDatabase providesEventsDatabase(Context context) {
-        return Room.databaseBuilder(context.getApplicationContext(), EventsDatabase.class, "events").build();
+    EventsDatabase providesEventsDatabase(@AppContext Context context) {
+        return Room.databaseBuilder(context, EventsDatabase.class, "events").build();
     }
 }

@@ -20,6 +20,6 @@ public interface IMainAppComponent {
 
     @Component.Factory
     interface Factory {
-        IMainAppComponent create(@BindsInstance Context context);
+        IMainAppComponent create(@BindsInstance @AppContext Context context);
     }
 }

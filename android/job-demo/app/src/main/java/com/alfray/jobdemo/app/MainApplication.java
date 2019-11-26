@@ -3,6 +3,7 @@ package com.alfray.jobdemo.app;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import dagger.Lazy;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -10,7 +11,11 @@ import java.time.LocalDateTime;
 public class MainApplication extends Application {
     private static final String TAG = MainApplication.class.getSimpleName();
 
-    @Inject EventLog mEventLog;
+    // Note: if any injected type depends on @AppContext, it must be declared lazy, otherwise
+    // dagger will try to initialize it here before the context is properly provided. This is
+    // very specific to the way this application object is initialized since app context is the
+    // application itself.
+    @Inject Lazy<EventLog> mEventLog;
     private IMainAppComponent mAppComponent;
 
     public static IMainAppComponent getMainAppComponent(Context context) {
@@ -35,7 +40,7 @@ public class MainApplication extends Application {
     }
 
     protected void skipThisUnderTest() {
-        mEventLog.add(LocalDateTime.now(), "App: Created");
+        mEventLog.get().add(LocalDateTime.now(), "App: Created");
     }
 
     @Override
