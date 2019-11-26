@@ -7,7 +7,7 @@ package com.alfray.jobdemo.app;
  */
 public class TestApplication extends MainApplication {
     public TestApplication() {
-        setComponent(DaggerITestAppComponent.factory().createTestApp());
+        setComponent(DaggerITestAppComponent.factory().createTestApp(this));
     }
 
     @Override

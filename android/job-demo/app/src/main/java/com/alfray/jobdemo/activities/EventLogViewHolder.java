@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alfray.jobdemo.R;
-import com.alfray.jobdemo.app.EventLog;
+import com.alfray.jobdemo.db.Event;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -48,7 +48,7 @@ public class EventLogViewHolder extends RecyclerView.ViewHolder {
         mTextTime = itemView.findViewById(R.id.timestamp);
     }
 
-    public void bind(EventLog.Event event) {
+    public void bind(Event event) {
         mTextMsg.setText(event.getMsg());
         mTextTime.setText(event.getDateTime().format(FORMATTER));
     }

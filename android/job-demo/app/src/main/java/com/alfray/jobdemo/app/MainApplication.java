@@ -18,7 +18,7 @@ public class MainApplication extends Application {
     }
 
     public MainApplication() {
-        setComponent(DaggerIMainAppComponent.factory().create());
+        setComponent(DaggerIMainAppComponent.factory().create(this));
     }
 
     /** Sets the IMainAppComponent, done by this constructor or the one from TestApplication. */

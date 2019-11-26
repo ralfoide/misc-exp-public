@@ -10,7 +10,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":   "$projectDir/schemas".toString(),
+                        "room.incremental":      "true",
+                        "room.expandProjection": "true"]
+            }
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -41,10 +51,11 @@ dependencies {
     implementation "com.google.guava:guava:28.1-android"
 
     // Dagger generation for main code + for test code
-    implementation "com.google.dagger:dagger:2.25.2"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.25.2"
-    testImplementation "com.google.dagger:dagger:2.25.2"
-    testAnnotationProcessor "com.google.dagger:dagger-compiler:2.25.2"
+    def dagger_version = "2.25.2"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    testImplementation "com.google.dagger:dagger:$dagger_version"
+    testAnnotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
@@ -55,4 +66,15 @@ dependencies {
     testImplementation "junit:junit:4.12"
     testImplementation "org.mockito:mockito-core:3.0.0"
     testImplementation "org.robolectric:robolectric:4.3.1"
+
+    // "Room" database handling
+    def room_version = "2.2.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+    // Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
 }

@@ -4,6 +4,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alfray.jobdemo.activities.EventLogViewHolder;
+import com.alfray.jobdemo.db.Event;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -46,24 +47,6 @@ public class EventLog {
         return mAdapter;
     }
 
-    public static class Event {
-        private final LocalDateTime mDateTime;
-        private final String mMsg;
-
-        public Event(LocalDateTime dateTime, String msg) {
-            mDateTime = dateTime;
-            mMsg = msg;
-        }
-
-        public String getMsg() {
-            return mMsg;
-        }
-
-        public LocalDateTime getDateTime() {
-            return mDateTime;
-        }
-    }
-
     public class EventLogAdapter extends RecyclerView.Adapter<EventLogViewHolder> {
         @Override
         public int getItemCount() {
@@ -81,4 +64,5 @@ public class EventLog {
             holder.bind(mEvents.get(position));
         }
     }
+
 }
