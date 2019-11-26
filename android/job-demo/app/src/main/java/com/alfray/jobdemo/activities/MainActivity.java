@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject EventLog mEventLog;
     private RecyclerView mRecyclerView;
+    private RecyclerView.AdapterDataObserver mScrollToEndObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +43,25 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "@@ onResume");
         super.onResume();
         mRecyclerView.setAdapter(mEventLog.getAdapter());
+        mScrollToEndObserver = new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+            }
+        };
+        mRecyclerView.getAdapter().registerAdapterDataObserver(mScrollToEndObserver);
+
+        mEventLog.loadAsync(null /*action*/);
     }
 
     @Override
     protected void onPause() {
         Log.d(TAG, "@@ onPause");
+        if (mScrollToEndObserver != null) {
+            mRecyclerView.getAdapter().unregisterAdapterDataObserver(mScrollToEndObserver);
+            mScrollToEndObserver = null;
+        }
         mRecyclerView.setAdapter(null);
         super.onPause();
     }
