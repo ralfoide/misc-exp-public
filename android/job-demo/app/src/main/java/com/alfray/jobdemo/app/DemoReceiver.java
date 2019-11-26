@@ -21,13 +21,13 @@ public class DemoReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        MainApplication.getMainAppComponent(context).inject(this);
-
         Log.d(TAG, "@@ onReceive: " + intent);
         String action = intent.getAction();
 
-        if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
+        if (Intent.ACTION_BOOT_COMPLETED.equals(action)
+             || "android.intent.action.QUICKBOOT_POWERON".equals(action)) {
             Log.d(TAG, "@@ ACTION_BOOT_COMPLETED");
+            MainApplication.getMainAppComponent(context).inject(this);
             mEventLog.add("Receiver: Boot completed");
             DemoJobService.scheduleJob(context);
         }
