@@ -9,6 +9,9 @@ import android.content.Context;
 import android.util.Log;
 
 import javax.inject.Inject;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 public class DemoJobService extends JobService {
     private static final String TAG = DemoJobService.class.getSimpleName();
@@ -29,13 +32,26 @@ public class DemoJobService extends JobService {
     }
 
     public static void scheduleJob(Context context) {
-        Log.d(TAG, "@@ scheduleJob");
+        scheduleJobWithDelay(context, 0);
+    }
+
+    public static void scheduleJobAt(Context context, LocalTime localTime) {
+        long delayMs = ChronoUnit.MILLIS.between(LocalTime.now(), localTime);
+        if (delayMs < 0) {
+            delayMs += Duration.of(1, ChronoUnit.DAYS).toMillis();
+        }
+        scheduleJobWithDelay(context, delayMs);
+    }
+
+    public static void scheduleJobWithDelay(Context context, long delayMs) {
+        Log.d(TAG, "@@ scheduleJob in " + delayMs + " ms");
         ComponentName serviceName = new ComponentName(context, DemoJobService.class);
         mNextJobId++;
         int jobId = (int) (mNextJobId & Long.MAX_VALUE);
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceName);
-        builder.setMinimumLatency(0 /* millis */);
-        builder.setOverrideDeadline(1000 /* millis */);
+        builder.setPersisted(true);
+        builder.setMinimumLatency(delayMs /* millis */);
+        builder.setOverrideDeadline(delayMs + 1000 /* millis */);
 
         JobScheduler scheduler = context.getSystemService(JobScheduler.class);
         scheduler.schedule(builder.build());

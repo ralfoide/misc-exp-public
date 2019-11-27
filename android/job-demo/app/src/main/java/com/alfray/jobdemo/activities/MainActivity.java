@@ -63,7 +63,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged() {
                 super.onChanged();
-                mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+                try {
+                    mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount() - 1);
+                } catch (IllegalArgumentException e) {
+                    Log.w(TAG, "smoothScrollToPosition failed", e);
+                    // This happens if the size has changed between when the line above counts it
+                    // and when the position change (which is async) actually happens. What is the
+                    // proper way to handle this? There's got to be better than this klunky thing.
+                }
             }
         };
         mRecyclerView.getAdapter().registerAdapterDataObserver(mScrollToEndObserver);
@@ -109,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGenerateLaterBtnClick(View view) {
+        Object tag = mEditTimeLater.getTag();
+        if (tag instanceof LocalTime) {
+            DemoJobService.scheduleJobAt(this, (LocalTime) tag);
+        }
     }
 
     private void onEditTimeLater(View view) {
