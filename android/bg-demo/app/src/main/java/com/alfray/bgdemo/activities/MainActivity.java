@@ -1,8 +1,13 @@
 package com.alfray.bgdemo.activities;
 
+import android.annotation.SuppressLint;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,17 +15,47 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alfray.bgdemo.R;
 import com.alfray.bgdemo.app.EventLog;
 import com.alfray.bgdemo.app.MainApplication;
+import com.alfray.bgdemo.app.PermanentService;
 
 import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private IMainActivityComponent mComponent;
 
     @Inject EventLog mEventLog;
-    private RecyclerView mRecyclerView;
+
+    private IMainActivityComponent mComponent;
+    /** Service binder, valid after a successful bind call. */
+    private PermanentService.ServiceBinder mServiceBinder;
+    /** Note: This is on a different lifecycle than the binder object itself. This boolean solely
+     * indicates whether bindService was successful and should be matched with an unbindService
+     * call. It does not matter whether the ServiceConnection callback was involved. */
+    private boolean mShouldUnbind;
     private RecyclerView.AdapterDataObserver mScrollToEndObserver;
+    private RecyclerView mRecyclerView;
+    private View mStartBtn;
+    private View mStopBtn;
+    private TextView mCounterText;
+
+    private final ServiceConnection mServiceCnx = new ServiceConnection() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d(TAG, "@@ onServiceConnected");
+            mServiceBinder = (PermanentService.ServiceBinder) service;
+            mServiceBinder.setCounterCallback(
+                    counter -> runOnUiThread(() -> mCounterText.setText(Long.toString(counter))));
+            updateButtons();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(TAG, "@@ onServiceDisconnected");
+            mServiceBinder = null;
+            updateButtons();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.eventsView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mStartBtn = findViewById(R.id.startBtn);
+        mStopBtn = findViewById(R.id.stopBtn);
+        mCounterText = findViewById(R.id.counter);
     }
 
     @Override
@@ -58,15 +97,22 @@ public class MainActivity extends AppCompatActivity {
         };
         mRecyclerView.getAdapter().registerAdapterDataObserver(mScrollToEndObserver);
         mEventLog.load();
+
+        startService();
+        updateButtons();
     }
 
     @Override
     protected void onPause() {
         Log.d(TAG, "@@ onPause");
+
+        unbindWithouStopService();
+
         if (mScrollToEndObserver != null) {
             mRecyclerView.getAdapter().unregisterAdapterDataObserver(mScrollToEndObserver);
             mScrollToEndObserver = null;
         }
+
         mRecyclerView.setAdapter(null);
         super.onPause();
     }
@@ -90,12 +136,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStartBtnClick(View view) {
+        startService();
     }
 
     public void onStopBtnClick(View view) {
+        unbindAndStopService();
     }
 
     public void onClearBtnClick(View view) {
         mEventLog.clear();
+    }
+
+    private void updateButtons() {
+        mStartBtn.setEnabled(mServiceBinder == null);
+        mStopBtn.setEnabled(mServiceBinder != null);
+    }
+
+    private void startService() {
+        Log.d(TAG, "@@ startService, binder: " + mServiceBinder + ", cnx: " + mServiceCnx);
+        if (mServiceBinder == null) {
+            PermanentService._start(this);
+            mShouldUnbind = PermanentService._bindFromActivity(this, mServiceCnx);
+        }
+    }
+
+    private void unbindWithouStopService() {
+        Log.d(TAG, "@@ unbindWithouStopService, binder: " + mServiceBinder + ", cnx: " + mServiceCnx);
+        if (mServiceBinder != null) {
+            mServiceBinder.setCounterCallback(null);
+            mServiceBinder = null;
+        }
+        if (mShouldUnbind) {
+            mShouldUnbind = false;
+            PermanentService._unbindFromActivity(this, mServiceCnx);
+        }
+    }
+
+    private void unbindAndStopService() {
+        Log.d(TAG, "@@ unbindAndStopService, binder: " + mServiceBinder);
+        if (mServiceBinder != null) {
+            mServiceBinder.setCounterCallback(null);
+            mServiceBinder.stopService();
+            mServiceBinder = null;
+            updateButtons();
+        }
+        if (mShouldUnbind) {
+            mShouldUnbind = false;
+            PermanentService._unbindFromActivity(this, mServiceCnx);
+        }
     }
 }

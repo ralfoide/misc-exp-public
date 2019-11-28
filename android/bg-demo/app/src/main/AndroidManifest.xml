@@ -4,6 +4,7 @@
         package="com.alfray.bgdemo">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
             android:name="com.alfray.bgdemo.app.MainApplication"
@@ -15,7 +16,9 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name="com.alfray.bgdemo.activities.MainActivity">
+        <activity
+                android:name="com.alfray.bgdemo.activities.MainActivity"
+                android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

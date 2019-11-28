@@ -4,8 +4,11 @@ import android.util.Log;
 import android.view.ViewGroup;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alfray.bgdemo.activities.EventLogViewHolder;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -35,11 +38,11 @@ public class EventLog {
     /**
      * Loads the local event table from the one saved in the database.
      */
+    @UiThread
     public void load() {
         Log.d(TAG, "@@ load");
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
-            Log.d(TAG, "@@ loaded");
         }
     }
 
@@ -48,17 +51,22 @@ public class EventLog {
     }
 
     public void add(LocalDateTime dateTime, String msg) {
-        Log.d(TAG, "@@ add");
+        Log.d(TAG, "@@ add: " + msg);
         Event event = new Event(dateTime, msg);
         synchronized (mEvents) {
             mEvents.add(event);
         }
-        if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
-            Log.d(TAG, "@@ added");
-        }
+        Completable
+                .fromAction(() ->         {
+                    if (mAdapter != null) {
+                        mAdapter.notifyDataSetChanged();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
+    @UiThread
     public void clear() {
         Log.d(TAG, "@@ clear");
         synchronized (mEvents) {
@@ -66,7 +74,6 @@ public class EventLog {
         }
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
-            Log.d(TAG, "@@ cleared");
         }
     }
 

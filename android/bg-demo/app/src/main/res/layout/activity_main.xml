@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text"
             android:layout_marginTop="8dp"
-            android:text="Start Service"
+            android:text="Start"
             />
 
     <Button
@@ -43,6 +43,17 @@
             android:layout_alignBaseline="@id/startBtn"
             android:layout_alignParentEnd="true"
             android:text="Clear Log"
+            />
+
+    <TextView
+            android:id="@+id/counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/stopBtn"
+            android:layout_toEndOf="@id/stopBtn"
+            android:layout_toStartOf="@+id/clearBtn"
+            android:gravity="center_horizontal"
+            tools:text="123"
             />
 
     <androidx.recyclerview.widget.RecyclerView
