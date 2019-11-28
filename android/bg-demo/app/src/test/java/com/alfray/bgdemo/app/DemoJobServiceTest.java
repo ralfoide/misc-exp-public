@@ -27,7 +27,7 @@ public class DemoJobServiceTest {
     @Test
     public void scheduleJob() {
         assertThat(mJobScheduler.getAllPendingJobs()).isEmpty();
-        DemoJobService.scheduleJob(mContext);
+        PermanentService.scheduleJob(mContext);
 
         assertThat(mJobScheduler.getAllPendingJobs()).hasSize(1);
         JobInfo jobInfo = mJobScheduler.getAllPendingJobs().get(0);

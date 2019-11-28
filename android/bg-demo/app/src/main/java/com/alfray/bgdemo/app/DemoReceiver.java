@@ -28,7 +28,6 @@ public class DemoReceiver extends BroadcastReceiver {
             Log.d(TAG, "@@ ACTION_BOOT_COMPLETED");
             MainApplication.getMainAppComponent(context).inject(this);
             mEventLog.add("Receiver: Boot completed");
-            DemoJobService.scheduleJob(context);
         }
     }
 }

@@ -11,40 +11,28 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Job Scheduler Demo w/ Dagger &amp; Robolectric"
+            android:text="Job Permanent Service w/ Dagger &amp; Robolectric"
             android:layout_centerHorizontal="true"
             />
 
     <Button
-            android:id="@+id/genNowBtn"
-            android:onClick="onGenerateNowBtnClick"
+            android:id="@+id/startBtn"
+            android:onClick="onStartBtnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text"
             android:layout_marginTop="8dp"
-            android:text="Generate Event Now"
+            android:text="Start Service"
             />
 
     <Button
-            android:id="@+id/genLaterBtn"
-            android:onClick="onGenerateLaterBtnClick"
+            android:id="@+id/stopBtn"
+            android:onClick="onStopBtnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/genNowBtn"
-            android:layout_marginTop="8dp"
-            android:text="Generate At"
-            />
-
-    <com.alfray.bgdemo.activities.TimeEditText
-            android:id="@+id/editTimeLater"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/genLaterBtn"
-            android:layout_toEndOf="@id/genLaterBtn"
-            android:layout_marginStart="8dp"
-            android:hint="Tap here to enter time"
-            android:inputType="datetime"
-            tools:text="Timestamp"
+            android:layout_alignBaseline="@id/startBtn"
+            android:layout_toEndOf="@id/startBtn"
+            android:text="Stop"
             />
 
     <Button
@@ -52,16 +40,16 @@
             android:onClick="onClearBtnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/genNowBtn"
+            android:layout_alignBaseline="@id/startBtn"
             android:layout_alignParentEnd="true"
-            android:text="Clear"
+            android:text="Clear Log"
             />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/eventsView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/genLaterBtn"
+            android:layout_below="@+id/startBtn"
             android:layout_marginTop="8dp"
             />
 

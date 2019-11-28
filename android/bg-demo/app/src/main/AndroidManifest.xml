@@ -33,10 +33,9 @@
         </receiver>
 
         <service
-                android:name="com.alfray.bgdemo.app.DemoJobService"
-                android:label="Demo Job Service"
+                android:name="com.alfray.bgdemo.app.PermanentService"
+                android:label="Demo Permanent Service"
                 android:enabled="true"
-                android:permission="android.permission.BIND_JOB_SERVICE"
                 />
 
     </application>

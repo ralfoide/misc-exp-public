@@ -13,7 +13,7 @@ public interface IMainAppComponent {
 
     void inject(MainApplication mainApplication);
     void inject(DemoReceiver demoReceiver);
-    void inject(DemoJobService demoJobService);
+    void inject(PermanentService demoJobService);
 
     IMainActivityComponent.Factory newMainActivityComponent();
 

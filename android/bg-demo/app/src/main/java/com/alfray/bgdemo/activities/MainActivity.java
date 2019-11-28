@@ -1,28 +1,17 @@
 package com.alfray.bgdemo.activities;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alfray.bgdemo.R;
-import com.alfray.bgdemo.app.DemoJobService;
 import com.alfray.bgdemo.app.EventLog;
 import com.alfray.bgdemo.app.MainApplication;
 
 import javax.inject.Inject;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -32,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject EventLog mEventLog;
     private RecyclerView mRecyclerView;
     private RecyclerView.AdapterDataObserver mScrollToEndObserver;
-    private TextView mEditTimeLater;
-    private TimePickerFragment mTimePickerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +35,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.eventsView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        mEditTimeLater = findViewById(R.id.editTimeLater);
-        mEditTimeLater.setOnClickListener(this::onEditTimeLater);
-        setTimeLater(LocalTime.now().plus(5, ChronoUnit.MINUTES));
     }
 
     @Override
@@ -106,76 +89,13 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public void onGenerateNowBtnClick(View view) {
-        DemoJobService.scheduleJob(this);
+    public void onStartBtnClick(View view) {
+    }
+
+    public void onStopBtnClick(View view) {
     }
 
     public void onClearBtnClick(View view) {
         mEventLog.clear();
     }
-
-    public void onGenerateLaterBtnClick(View view) {
-        Object tag = mEditTimeLater.getTag();
-        if (tag instanceof LocalTime) {
-            DemoJobService.scheduleJobAt(this, (LocalTime) tag);
-        }
-    }
-
-    private void onEditTimeLater(View view) {
-        if (mTimePickerFragment == null) {
-            mTimePickerFragment = new TimePickerFragment(mEditTimeLater.getTag());
-            mTimePickerFragment.show(getSupportFragmentManager(), "timePicker");
-        }
-    }
-
-    private void setTimeLater(LocalTime localTime) {
-        Log.d(TAG, "@@ setTimeLater " + localTime);
-        mTimePickerFragment = null;
-        if (localTime != null) {
-            mEditTimeLater.setTag(localTime);
-            mEditTimeLater.setText(localTime.format(DateTimeFormatter.ISO_LOCAL_TIME));
-        }
-    }
-
-    /**
-     * Time picker dialog-fragment. Invokes {@code setTimeLater} in activity on done, either with
-     * a time (when set) or null (when dismissed).
-     */
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-        private final LocalTime mOriginalTime;
-
-        public TimePickerFragment(Object originalTime) {
-            mOriginalTime = originalTime instanceof LocalTime ? (LocalTime) originalTime : null;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            LocalTime time = mOriginalTime != null ? mOriginalTime : LocalTime.now();
-            int hour = time.getHour();
-            int minute = time.getMinute();
-
-            Log.d(TAG, "@@ TimePickerFragment for " + hour + ":" + minute);
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-
-        @Override
-        public void onDismiss(@NonNull DialogInterface dialog) {
-            Log.d(TAG, "@@ TimePickerFragment.onDismiss");
-            super.onDismiss(dialog);
-            if (getActivity() instanceof MainActivity) {
-                ((MainActivity) getActivity()).setTimeLater(null);
-            }
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            LocalTime time = LocalTime.of(hourOfDay, minute);
-            Log.d(TAG, "@@ TimePickerFragment.onTimeSet for " + hourOfDay + ":" + minute);
-            if (getActivity() instanceof MainActivity) {
-                ((MainActivity) getActivity()).setTimeLater(time);
-            }
-        }
-    }
-
 }
