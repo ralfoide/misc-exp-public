@@ -1,0 +1,84 @@
+apply plugin: "com.android.application"
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.alfray.jobdemo"
+        minSdkVersion 26
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation":   "$projectDir/schemas".toString(),
+                        "room.incremental":      "true",
+                        "room.expandProjection": "true"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
+    testOptions {
+        unitTests {
+            // For Robolectric 4
+            includeAndroidResources = true
+            // Prevent "not mocked" errors (see http://g.co/androidstudio/not-mocked)
+            returnDefaultValues = true
+        }
+    }
+
+    // Enable lambdas, etc.
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "com.google.guava:guava:28.1-android"
+
+    // Dagger generation for main code + for test code
+    def dagger_version = "2.25.2"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    testImplementation "com.google.dagger:dagger:$dagger_version"
+    testAnnotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+
+    androidTestImplementation "androidx.test.ext:junit:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+
+    testImplementation "androidx.test.ext:junit:1.1.1"
+    testImplementation "com.google.truth:truth:1.0"
+    testImplementation "com.google.guava:guava:24.1"
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.mockito:mockito-core:3.0.0"
+    testImplementation "org.robolectric:robolectric:4.3.1"
+
+    def rxjava2_version = "2.0.1"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava2_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxjava2_version"
+
+    // "Room" database handling
+    def room_version = "2.2.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+    // Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+}

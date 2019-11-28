@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.MainActivity"
+        tools:ignore="HardcodedText"
+        >
+
+    <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Job Scheduler Demo w/ Dagger &amp; Robolectric"
+            android:layout_centerHorizontal="true"
+            />
+
+    <Button
+            android:id="@+id/genNowBtn"
+            android:onClick="onGenerateNowBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:layout_marginTop="8dp"
+            android:text="Generate Event Now"
+            />
+
+    <Button
+            android:id="@+id/genLaterBtn"
+            android:onClick="onGenerateLaterBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/genNowBtn"
+            android:layout_marginTop="8dp"
+            android:text="Generate At"
+            />
+
+    <com.alfray.jobdemo.activities.TimeEditText
+            android:id="@+id/editTimeLater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/genLaterBtn"
+            android:layout_toEndOf="@id/genLaterBtn"
+            android:layout_marginStart="8dp"
+            android:hint="Tap here to enter time"
+            android:inputType="datetime"
+            tools:text="Timestamp"
+            />
+
+    <Button
+            android:id="@+id/clearBtn"
+            android:onClick="onClearBtnClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/genNowBtn"
+            android:layout_alignParentEnd="true"
+            android:text="Clear"
+            />
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/genLaterBtn"
+            android:layout_marginTop="8dp"
+            />
+
+</RelativeLayout>
