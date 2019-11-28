@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.activities;
+package com.alfray.bgdemo.activities;
 
 import dagger.Subcomponent;
 

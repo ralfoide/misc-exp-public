@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.activities;
+package com.alfray.bgdemo.activities;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -14,10 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.alfray.jobdemo.R;
-import com.alfray.jobdemo.app.DemoJobService;
-import com.alfray.jobdemo.app.EventLog;
-import com.alfray.jobdemo.app.MainApplication;
+import com.alfray.bgdemo.R;
+import com.alfray.bgdemo.app.DemoJobService;
+import com.alfray.bgdemo.app.EventLog;
+import com.alfray.bgdemo.app.MainApplication;
 
 import javax.inject.Inject;
 import java.time.LocalTime;
@@ -74,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         mRecyclerView.getAdapter().registerAdapterDataObserver(mScrollToEndObserver);
-
-        mEventLog.loadAsync(null /*action*/);
+        mEventLog.load();
     }
 
     @Override

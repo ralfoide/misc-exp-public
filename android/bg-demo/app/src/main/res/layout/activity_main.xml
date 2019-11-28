@@ -35,7 +35,7 @@
             android:text="Generate At"
             />
 
-    <com.alfray.jobdemo.activities.TimeEditText
+    <com.alfray.bgdemo.activities.TimeEditText
             android:id="@+id/editTimeLater"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

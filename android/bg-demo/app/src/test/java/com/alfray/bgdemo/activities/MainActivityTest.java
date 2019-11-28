@@ -1,11 +1,14 @@
-package com.alfray.jobdemo.activities;
+package com.alfray.bgdemo.activities;
 
+import android.os.Looper;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -21,6 +24,7 @@ public class MainActivityTest {
     @Before
     public void setUp() {
         mScenario = ActivityScenario.launch(MainActivity.class);
+        Shadows.shadowOf(Looper.getMainLooper()).idle();
     }
 
     @Test

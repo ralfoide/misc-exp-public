@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.app;
+package com.alfray.bgdemo.app;
 
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;

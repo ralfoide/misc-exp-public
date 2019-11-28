@@ -1,9 +1,6 @@
-package com.alfray.jobdemo.app;
+package com.alfray.bgdemo.app;
 
 import android.content.Context;
-import com.alfray.jobdemo.db.EventsDatabaseTest;
-import com.alfray.jobdemo.db.EventsDbModule;
-import com.alfray.jobdemo.db.MemoryDbModule;
 import dagger.BindsInstance;
 import dagger.Component;
 
@@ -27,11 +24,10 @@ import javax.inject.Singleton;
  * - add inject() methods for all test classes that use @Inject.
  */
 @Singleton
-@Component(modules = { MemoryDbModule.class } )
+@Component
 public interface ITestAppComponent extends IMainAppComponent {
 
     void inject(EventLogTest eventLogTest);
-    void inject(EventsDatabaseTest eventsDatabaseTest);
 
     @Component.Factory
     interface Factory {

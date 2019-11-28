@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.app;
+package com.alfray.bgdemo.app;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.Documented;

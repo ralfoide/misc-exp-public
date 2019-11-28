@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.app;
+package com.alfray.bgdemo.app;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import javax.inject.Inject;
-import java.time.LocalDateTime;
 
 /**
  * For demo purposes, the boot action can be triggered from adb:
  * $ adb root
- * $ adb shell am broadcast -a android.intent.action.BOOT_COMPLETED -p com.alfray.jobdemo
+ * $ adb shell am broadcast -a android.intent.action.BOOT_COMPLETED -p com.alfray.bgdemo
  * (This only works on non-production builds & emulators _without_ Play Services.)
  */
 public class DemoReceiver extends BroadcastReceiver {

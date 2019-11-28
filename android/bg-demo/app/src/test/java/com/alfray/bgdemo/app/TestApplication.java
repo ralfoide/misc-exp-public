@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.app;
+package com.alfray.bgdemo.app;
 
 /**
  * Creates an application for Robolectric tests.

@@ -1,4 +1,4 @@
-package com.alfray.jobdemo;
+package com.alfray.bgdemo;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.alfray.jobdemo", appContext.getPackageName());
+        assertEquals("com.alfray.bgdemo", appContext.getPackageName());
     }
 }

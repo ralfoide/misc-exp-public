@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.activities;
+package com.alfray.bgdemo.activities;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.alfray.jobdemo.R;
-import com.alfray.jobdemo.db.Event;
+import com.alfray.bgdemo.R;
+import com.alfray.bgdemo.app.Event;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;

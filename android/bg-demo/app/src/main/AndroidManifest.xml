@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        package="com.alfray.jobdemo">
+        package="com.alfray.bgdemo">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-            android:name=".app.MainApplication"
+            android:name="com.alfray.bgdemo.app.MainApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -15,7 +15,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name="com.alfray.bgdemo.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,7 +23,7 @@
         </activity>
 
         <receiver
-                android:name=".app.DemoReceiver"
+                android:name="com.alfray.bgdemo.app.DemoReceiver"
                 android:label="Demo Boot Receiver"
                 android:enabled="true" >
             <intent-filter>
@@ -33,7 +33,7 @@
         </receiver>
 
         <service
-                android:name=".app.DemoJobService"
+                android:name="com.alfray.bgdemo.app.DemoJobService"
                 android:label="Demo Job Service"
                 android:enabled="true"
                 android:permission="android.permission.BIND_JOB_SERVICE"

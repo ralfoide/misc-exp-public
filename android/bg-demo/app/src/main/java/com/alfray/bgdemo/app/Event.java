@@ -1,20 +1,9 @@
-package com.alfray.jobdemo.db;
-
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+package com.alfray.bgdemo.app;
 
 import java.time.LocalDateTime;
 
-@Entity(tableName = "events")
 public class Event {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
-
-    @ColumnInfo(name = "date-time")
     private final LocalDateTime mDateTime;
-
-    @ColumnInfo(name = "msg")
     private final String mMsg;
 
     public Event(LocalDateTime dateTime, String msg) {

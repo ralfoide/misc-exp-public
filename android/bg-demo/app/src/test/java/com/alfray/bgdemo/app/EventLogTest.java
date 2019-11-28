@@ -1,4 +1,4 @@
-package com.alfray.jobdemo.app;
+package com.alfray.bgdemo.app;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ApplicationProvider;
@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -44,11 +45,11 @@ public class EventLogTest {
 
         mEventLog.add("Msg 1");
         assertThat(adapter.getItemCount()).isEqualTo(1);
-        verify(observer).onItemRangeInserted(0, 1);
+        verify(observer).onChanged();
 
         mEventLog.add("Msg 2");
         assertThat(adapter.getItemCount()).isEqualTo(2);
-        verify(observer).onItemRangeInserted(1, 1);
+        verify(observer, times(2)).onChanged();
 
         verifyNoMoreInteractions(observer);
     }

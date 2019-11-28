@@ -1,5 +1,6 @@
-package com.alfray.jobdemo.db;
+package com.alfray.bgdemo.app;
 
+import com.alfray.bgdemo.app.Event;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
