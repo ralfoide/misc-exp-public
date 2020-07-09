@@ -20,10 +20,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataHolder> {
     public static final int VIEW_TYPE_INT = 0;
     public static final int VIEW_TYPE_AFTER = 1;
 
+    private static final int NUM_VIRTUAL_PAGES_BEFORE_LIST = 1;
+
     private final List<Data> mDataList = new ArrayList<>();
     private final IntConsumer mAddCallback;
-
-    private int mAdapterPosForPageZero = 1;
 
     public DataAdapter(IntConsumer addCallback) {
         mAddCallback = addCallback;
@@ -34,17 +34,42 @@ public class DataAdapter extends RecyclerView.Adapter<DataHolder> {
         }
     }
 
-    /** The adapter position for page zero. This moves are pages are prepended.
-     * When starting page 0 is at index 1 because of the virtual "before" page. */
-    public int getAdapterPosForPageZero() {
-        return mAdapterPosForPageZero;
+    /** Translates the adapter position into a list index. This does not validate the index. */
+    private int adapterPositionToListIndex(int adapterPosition) {
+        return adapterPosition - NUM_VIRTUAL_PAGES_BEFORE_LIST;
+    }
+
+    /** Translates the list index into an adapter position. This does not validate the position. */
+    private int listIndexToAdapterPosition(int listIndex) {
+        return listIndex + NUM_VIRTUAL_PAGES_BEFORE_LIST;
+    }
+
+    /** Returns the data value for the adapter position or -1 if invalid. */
+    public int adapterPositionToDataValue(int adapterPosition) {
+        // There are two equivalent ways to do this: just access the item and get its value
+        // or get the value of item at index 0 in the list + adjust for offset.
+        Data data = getData(adapterPosition);
+        return data == null ? RecyclerView.NO_POSITION : data.getValue();
+    }
+
+    /** Returns the adapter position for the given data value, or -1 if invalid. */
+    public int dataValueToAdapterPosition(int dataValue) {
+        // We know that all data values are consecutive, so all we need is the value
+        // of the first item in the list.
+        int firstValue = mDataList.isEmpty() ? 0 : mDataList.get(0).getValue();
+        int listIndex = dataValue - firstValue;
+        if (listIndex >= 0 && listIndex < mDataList.size()) {
+            return listIndexToAdapterPosition(listIndex);
+        } else {
+            return RecyclerView.NO_POSITION;
+        }
     }
 
     @Nullable
     public Data getData(int adapterPosition) {
-        int index = adapterPosition - mAdapterPosForPageZero;
-        if (index >= 0 && index < mDataList.size()) {
-            return mDataList.get(index);
+        int listIndex = adapterPositionToListIndex(adapterPosition);
+        if (listIndex >= 0 && listIndex < mDataList.size()) {
+            return mDataList.get(listIndex);
         }
         return null;
     }
@@ -83,12 +108,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataHolder> {
 
     @Override
     public int getItemViewType(int adapterPosition) {
-        int index = adapterPosition - mAdapterPosForPageZero;
-        if (index == -1) {
+        int listIndex = adapterPositionToListIndex(adapterPosition);
+        if (listIndex == -1) {
             return VIEW_TYPE_BEFORE;
-        } else if (index == mDataList.size()) {
+        } else if (listIndex == mDataList.size()) {
             return VIEW_TYPE_AFTER;
-        } else if (index >= 0 && index < mDataList.size()) {
+        } else if (listIndex >= 0 && listIndex < mDataList.size()) {
             return VIEW_TYPE_INT;
         }
         Log.e(TAG, "getItemViewType : invalid adapterPosition = " + adapterPosition);
@@ -96,15 +121,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataHolder> {
     }
 
     public void prependItems(int n) {
-        // Note: this expects the list to not be empty (always the case in this
-        // simplified test). Proper code should handle an empty list properly.
-
-        int initialValue = mDataList.get(0).getValue();
+        int initialValue = mDataList.isEmpty() ? 0 : mDataList.get(0).getValue();
         for (int i = 0; i < n; i++) {
             mDataList.add(0, new Data(--initialValue));
-            mAdapterPosForPageZero++; // each time page 0 moves one index up in the backing data array
         }
-        notifyItemRangeChanged(0, n);
+        // Adapter update: we do not call notifyItemRangeChanged(0, n) as not only items [0..n-1]
+        // have changed, but also all the ones at [n...+] have changed too. In fact the whole list
+        // has essentially changed now.
+        notifyDataSetChanged();
     }
 
     public void appendItems(int n) {
@@ -112,23 +136,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataHolder> {
         // simplified test). Proper code should handle an empty list properly.
 
         final int oldSize = mDataList.size();
-        int lastValue = mDataList.get(oldSize - 1).getValue();
+        int lastValue = oldSize == 0 ? -1 : mDataList.get(oldSize - 1).getValue();
         for (int i = 0; i < n; i++) {
             mDataList.add(new Data(++lastValue));
         }
         notifyItemRangeChanged(oldSize, n);
-    }
-
-    /** Returns the data value for the adapter position or -1 if invalid. */
-    public int adapterPositionToDataValue(int adapterPosition) {
-        Data data = getData(adapterPosition);
-        return data == null ? RecyclerView.NO_POSITION : data.getValue();
-    }
-
-    /** Returns the adapter position for the given data value. */
-    public int dataValueToAdapterPosition(int dataValue) {
-        // We know that all data values are consecutives, and "mIndexPageZero" represents
-
-
     }
 }

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         Context context = this;
 
-        mAdapter = new DataAdapter(this, mHandler, this::addItems);
+        mAdapter = new DataAdapter(this::addItems);
 
         mRecyclerView = findViewById(R.id.pager);
         mRecyclerView.setAdapter(mAdapter);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         mSnapHelper = new PagerSnapHelper();
         mSnapHelper.attachToRecyclerView(mRecyclerView);
 
-        mRecyclerView.scrollToPosition(mAdapter.getAdapterPosForPageZero());
+        mRecyclerView.scrollToPosition(mAdapter.dataValueToAdapterPosition(0));
 
         // Keep track of the current adapter position
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -116,12 +116,25 @@ public class MainActivity extends AppCompatActivity {
         // For testing purposes, delay this by 5 seconds
         mHandler.postDelayed(() -> {
             if (before) {
-                int currentPos = mCurrentAdapterPosition;
+                // Prepending items necessarily changes the current adapter position
+                // as we want to keep displaying the same card yet that card is now at
+                // a different adapter position.
+
+                int currentValue = mAdapter.adapterPositionToDataValue(mCurrentAdapterPosition);
 
                 mAdapter.prependItems(5);
 
+                // To keep displaying the same card, we need to change the recycler view position.
+                int newPos = mAdapter.dataValueToAdapterPosition(currentValue);
+                if (newPos != RecyclerView.NO_POSITION) {
+                    mRecyclerView.scrollToPosition(newPos);
+                }
 
             } else {
+                // Appending items is easier as it does not have any impact on the current
+                // adapter position. Even if the pager were on the last "After" page, we would
+                // want that page to reflect the newly added card.
+
                 mAdapter.appendItems(5);
             }
 
