@@ -1,13 +1,16 @@
 package com.alflabs.recyclerdemo;
 
 public class Data {
-    private final int mValue;
+    public static final long NO_VALUE = Long.MIN_VALUE;
+    public static final long INITIAL_VALUE = 0L;
 
-    public Data(int value) {
+    private final long mValue;
+
+    public Data(long value) {
         mValue = value;
     }
 
-    public int getValue() {
+    public long getValue() {
         return mValue;
     }
 }

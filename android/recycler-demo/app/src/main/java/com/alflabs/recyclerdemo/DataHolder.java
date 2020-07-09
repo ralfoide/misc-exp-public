@@ -41,6 +41,6 @@ class DataHolder extends RecyclerView.ViewHolder {
     }
 
     public void present(@Nullable Data data) {
-        mTextContent.setText(data == null ? "NULL" : Integer.toString(data.getValue()));
+        mTextContent.setText(data == null ? "NULL" : Long.toString(data.getValue()));
     }
 }

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 // as we want to keep displaying the same card yet that card is now at
                 // a different adapter position.
 
-                int currentValue = mAdapter.adapterPositionToDataValue(mCurrentAdapterPosition);
+                long currentValue = mAdapter.adapterPositionToDataValue(mCurrentAdapterPosition);
 
                 mAdapter.prependItems(5);
 
