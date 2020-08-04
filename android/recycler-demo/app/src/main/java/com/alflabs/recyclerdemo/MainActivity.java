@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         mSnapHelper = new PagerSnapHelper();
         mSnapHelper.attachToRecyclerView(mRecyclerView);
 
+        mRecyclerView.setEdgeEffectFactory(new CustomEdgeEffectFactory());
         mRecyclerView.scrollToPosition(mAdapter.dataValueToAdapterPosition(0));
 
         // Keep track of the current adapter position
