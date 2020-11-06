@@ -5,6 +5,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Example of attributes to enable to have the UI go under a transparent status bar:
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        and in the XML root layout, add this attribute:
+        <Layout ... android:fitsSystemWindows="false" ...>
+        -->
     </style>
 
 </resources>

@@ -5,6 +5,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private PagerSnapHelper mSnapHelper;
     private int mCurrentAdapterPosition = RecyclerView.NO_POSITION;
+    private CheckBox mToggleStatusBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Context context = this;
+
+        mToggleStatusBar = findViewById(R.id.toggle_status_bar);
 
         mAdapter = new DataAdapter(this::addItems);
 
@@ -151,5 +158,33 @@ public class MainActivity extends AppCompatActivity {
                 "Adding data " + (before ? "before" : "after") + " in 5 seconds",
                 Toast.LENGTH_LONG)
                 .show();
+    }
+
+    public void onToggleStatusBar(View view) {
+        boolean enabled = mToggleStatusBar.isChecked();
+
+        // To enable "visible under the status bar", the XML changes are:
+        // - in styles.xml, add these:
+        //   <item name="android:windowTranslucentStatus">true</item>
+        //   <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        //   <item name="android:statusBarColor">@android:color/transparent</item>
+        // - in activity_main.xml (main layout), add this to the root layout:
+        //   android:fitsSystemWindows="false"
+
+        Window window = getWindow();
+        View rootLayout = findViewById(R.id.root_layout);
+
+        if (enabled) {
+            window.addFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                | WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            rootLayout.setFitsSystemWindows(false);
+        } else {
+            window.clearFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                            | WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            rootLayout.setFitsSystemWindows(true);
+        }
+
     }
 }
