@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -19,16 +20,17 @@
             android:padding="32dp"
             android:orientation="vertical">
 
-            <ImageView
+            <com.alflabs.recyclerdemo.ShadowImageView
+                    android:id="@+id/icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_thumb_up"
+                    android:src="@drawable/legacy_thumb_up_hdpi_24"
                     android:layout_margin="32dp"
                     android:layout_marginBottom="16dp"
                     android:layout_gravity="center_horizontal"
                 />
             <TextView
-                    android:id="@+id/item_type"
+                    android:id="@+id/item_type_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
@@ -38,8 +40,24 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@color/colorAccent"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:drawableTop="@drawable/legacy_thumb_up_hdpi_24"
+                    android:gravity="center_horizontal"
+                    android:shadowDx="4"
+                    android:shadowDy="4"
+                    android:shadowRadius="8"
+                    android:shadowColor="#80000000"
+                    android:textColor="@android:color/white"
                     tools:text="Type"
                 />
+
+            <ImageView
+                    android:id="@+id/selector_view"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/ic_color_selector"
+                    app:srcCompat="@drawable/ic_thumb_selector"
+                    />
 
             <TextView
                     android:id="@+id/item_content"

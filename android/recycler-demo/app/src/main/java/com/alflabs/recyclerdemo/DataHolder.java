@@ -3,6 +3,7 @@ package com.alflabs.recyclerdemo;
 import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +20,9 @@ class DataHolder extends RecyclerView.ViewHolder {
         mTextContent = itemView.findViewById(R.id.item_content);
 
         Button addButton = itemView.findViewById(R.id.item_add);
-        TextView textType = itemView.findViewById(R.id.item_type);
+        TextView textType = itemView.findViewById(R.id.item_type_text);
+        ImageView icon = itemView.findViewById(R.id.icon);
+        ImageView selector = itemView.findViewById(R.id.selector_view);
         switch (viewType) {
         case DataAdapter.VIEW_TYPE_BEFORE:
             textType.setText("Before Content");
@@ -38,6 +41,11 @@ class DataHolder extends RecyclerView.ViewHolder {
             addButton.setVisibility(View.GONE);
             break;
         }
+
+        ((ShadowImageView) icon).setShadowFromResId(R.drawable.legacy_thumb_up_hdpi_24);
+
+        selector.setOnClickListener(v -> v.setSelected(!v.isSelected()));
+        Shadowizer.shadowize(selector);
     }
 
     public void present(@Nullable Data data) {

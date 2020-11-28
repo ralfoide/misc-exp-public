@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = this;
 
         mToggleStatusBar = findViewById(R.id.toggle_status_bar);
+        onToggleStatusBar(mToggleStatusBar);
 
         mAdapter = new DataAdapter(this::addItems);
 
@@ -161,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onToggleStatusBar(View view) {
-        boolean enabled = mToggleStatusBar.isChecked();
+        boolean enabled_default = mToggleStatusBar.isChecked();
+        boolean enabled_transparent = false;
 
         // To enable "visible under the status bar", the XML changes are:
         // - in styles.xml, add these:
@@ -174,17 +176,26 @@ public class MainActivity extends AppCompatActivity {
         Window window = getWindow();
         View rootLayout = findViewById(R.id.root_layout);
 
-        if (enabled) {
+        if (enabled_default) {
             window.addFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                | WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            | WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             rootLayout.setFitsSystemWindows(false);
+
+        } else if (enabled_transparent) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(0x803700B3); // colorPrimaryDark * 0.5 alpha
+
+            rootLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+
         } else {
             window.clearFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                             | WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             rootLayout.setFitsSystemWindows(true);
-        }
+       }
 
     }
 }
